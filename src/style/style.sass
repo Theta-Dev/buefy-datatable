@@ -1,0 +1,26 @@
+@use "~bulma/sass/utilities/derived-variables"
+@use "~bulma-prefers-dark/sass/utilities/mixins"
+
+// Icon size adjustments
+.control.has-icons-left .icon, .control.has-icons-right .icon
+  width: 1.8em
+  margin: 0 0.4em
+
+// Dark mode fixes
++mixins.prefers-scheme(dark)
+  .modal-background
+    background-color: rgba(10, 10, 10, 0.86)
+  .modal-card
+    color: derived-variables.$white
+  .modal-card-body
+    background-color: derived-variables.$black-ter
+
+  .table:not(.is-bordered)
+    td, th
+      // border-bottom: 1px solid derived-variables.$grey-darker
+      border-left: none
+      border-right: none
+
+// Fix table overflow
+.table-wrapper
+  overflow-x: unset
