@@ -345,7 +345,7 @@ export default {
 @use "~bulma-prefers-dark/sass/utilities/mixins"
 
 .datatable-root
-  .input
+  .card-header .input
     width: min(50vw, 300px)
     border-radius: 0 0.25rem
     border-style: none none solid solid

@@ -33,6 +33,7 @@ Vue.use(Buefy, {
 Vue.use(VTooltip, {
   defaultContainer: false,
   autoHide: false,
+  defaultBoundariesElement: document.body,
   popover: {
     defaultContainer: '#popovers',
   },
