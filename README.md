@@ -6,6 +6,8 @@ Styled with buefy/bulma (can be adapted for other component frameworks).
 
 ![Example Table](./example.png)
 
+[View Demo](https://htmlpreview.github.io/?https://github.com/Theta-Dev/buefy-datatable/blob/master/example.html)
+
 ```html
 <DataTable
   title="DataTable Demo"
