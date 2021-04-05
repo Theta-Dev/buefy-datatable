@@ -1,112 +1,106 @@
 <template>
-  <div>
-    <h1
-      v-if="title"
-      class="title"
-    >
-      {{ title }}
-    </h1>
-    <b-field class="mb-6">
-      <b-input
-        v-model="search"
-        placeholder="Search..."
-        :icon="icons.search"
-        :icon-right="search ? icons.clear : ''"
-        icon-right-clickable
-        @icon-right-click="search = ''"
-      />
-    </b-field>
-
-    <b-modal
-      v-model="filter_dialog.active"
-      has-modal-card
-      trap-focus
-      aria-role="dialog"
-      aria-label="Filter"
-      aria-modal
-    >
-      <template #default="props">
-        <dialog-filter
-          :dactive="filter_dialog.active"
-          :fname="fields[filter_dialog.col].name"
-          :items="filterLists[filter_dialog.col]"
-          :filters="filters[filter_dialog.col]"
-          @selection="$set(filters, filter_dialog.col, $event)"
-          @close="props.close"
+  <div class="datatable-root card">
+    <header class="card-header">
+      <p class="card-header-title">
+        {{ title }}
+      </p>
+      <b-field>
+        <b-input
+          v-model="search"
+          placeholder="Search..."
+          :icon="icons.search"
+          :icon-right="search ? icons.clear : ''"
+          icon-right-clickable
+          @icon-right-click="search = ''"
         />
-      </template>
-    </b-modal>
-
-    <table class="datatable table is-bordered">
-      <thead>
-        <!-- Headers -->
-        <tr>
-          <th
-            v-for="(field, i) in fields"
-            :key="field.name"
-            :class="getHeadClasses(i, field.headCls)"
-            @click="toggleSort(i)"
-          >
-            <v-popover
-              :trigger="isFilterActive(i) ? 'manual' : 'hover'"
-              :open="isFilterActive(i)"
-              placement="top"
-              popover-class="po-filter"
-              :auto-hide="false"
-              :disabled="!isFilterAvailable(i) && !isSortAvailable(i)"
-            >
-              {{ field.name }} {{ getSortIcon(i) }}
-              <template slot="popover">
-                <!--
-                <b-button
-                  v-if="isSortAvailable(i)"
-                  class="mx-1"
-                  :type="isSortActive(i) ? 'is-primary' : ''"
-                  :icon-right="isSortActive(i, false) ? icons.sortZA : icons.sortAZ"
-                  @click="toggleSort(i)"
-                />-->
-                <b-button
-                  v-if="isFilterAvailable(i)"
-                  size="is-small"
-                  :type="isFilterActive(i) ? 'is-primary' : ''"
-                  :icon-right="icons.filter"
-                  @click="showFilterDialog(i)"
-                />
-                <b-button
-                  v-if="isFilterActive(i)"
-                  class="ml-1"
-                  size="is-small"
-                  type="is-danger"
-                  :icon-right="icons.filter_off"
-                  @click="clearFilter(i)"
-                />
-              </template>
-            </v-popover>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Items -->
-        <template v-for="(item, i_item) in tdata_filtered">
-          <tr
-            v-for="(n, i_itrow) in numItemRows[i_item]"
-            :key="i_item + '.' + i_itrow"
-            :class="{'first-itrow': i_itrow===0, even: !(i_item % 2)}"
-          >
-            <template
-              v-for="(col, i_col) in item"
-            >
-              <component
-                :is="fields[i_col].cell(col[i_itrow])"
-                v-if="(numItemRows[i_item] - col.length) === 0 || i_itrow===0"
-                :key="i_col"
-                :rowspan="(numItemRows[i_item] - col.length) === 0 ? 1 : numItemRows[i_item]"
-              />
-            </template>
-          </tr>
+      </b-field>
+    </header>
+    <div class="card-content">
+      <b-modal
+        v-model="filter_dialog.active"
+        has-modal-card
+        trap-focus
+        aria-role="dialog"
+        aria-label="Filter"
+        aria-modal
+      >
+        <template #default="props">
+          <dialog-filter
+            :dactive="filter_dialog.active"
+            :fname="fields[filter_dialog.col].name"
+            :items="filterLists[filter_dialog.col]"
+            :filters="filters[filter_dialog.col]"
+            @selection="$set(filters, filter_dialog.col, $event)"
+            @close="props.close"
+          />
         </template>
-      </tbody>
-    </table>
+      </b-modal>
+
+      <div class="datatable-wrapper">
+        <table class="datatable table is-bordered">
+          <thead>
+            <!-- Headers -->
+            <tr>
+              <th
+                v-for="(field, i) in fields"
+                :key="field.name"
+                :class="getHeadClasses(i, field.headCls)"
+                @click="toggleSort(i)"
+              >
+                <v-popover
+                  :trigger="isFilterActive(i) ? 'manual' : 'hover'"
+                  :open="isFilterActive(i)"
+                  placement="top"
+                  popover-class="po-filter"
+                  :auto-hide="false"
+                  :disabled="!isFilterAvailable(i) && !isSortAvailable(i)"
+                >
+                  {{ field.name }} {{ getSortIcon(i) }}
+                  <template slot="popover">
+                    <b-button
+                      v-if="isFilterAvailable(i)"
+                      size="is-small"
+                      :type="isFilterActive(i) ? 'is-primary' : ''"
+                      :icon-right="icons.filter"
+                      @click="showFilterDialog(i)"
+                    />
+                    <b-button
+                      v-if="isFilterActive(i)"
+                      class="ml-1"
+                      size="is-small"
+                      type="is-danger"
+                      :icon-right="icons.filter_off"
+                      @click="clearFilter(i)"
+                    />
+                  </template>
+                </v-popover>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Items -->
+            <template v-for="(item, i_item) in tdata_filtered">
+              <tr
+                v-for="(n, i_itrow) in numItemRows[i_item]"
+                :key="i_item + '.' + i_itrow"
+                :class="{'first-itrow': i_itrow===0, even: !(i_item % 2)}"
+              >
+                <template
+                  v-for="(col, i_col) in item"
+                >
+                  <component
+                    :is="fields[i_col].cell(col[i_itrow])"
+                    v-if="(numItemRows[i_item] - col.length) === 0 || i_itrow===0"
+                    :key="i_col"
+                    :rowspan="(numItemRows[i_item] - col.length) === 0 ? 1 : numItemRows[i_item]"
+                  />
+                </template>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -280,16 +274,6 @@ export default {
       ));
       return filterLists;
     },
-    // Selected filters for each column
-    // [i_col] => filterable[] (selected)
-    /*
-    filters() {
-      console.log('COMP filters');
-      return this.filter_selections.map((selection, col) => selection.map(
-        (i_sel) => this.filterLists[col][i_sel],
-      ));
-    },
-    */
   },
 
   mounted() {
@@ -360,14 +344,27 @@ export default {
 @use "~bulma/sass/utilities/derived-variables"
 @use "~bulma-prefers-dark/sass/utilities/mixins"
 
+.datatable-wrapper
+  overflow: auto
+
 .datatable
   width: 100%
+  border-collapse: separate
 
   thead th
     border-bottom-width: 2px !important
     padding: 0
     user-select: none
     white-space: nowrap
+    background-color: derived-variables.$white
+    +mixins.prefers-scheme(dark)
+      background-color: derived-variables.$black-bis
+
+    // Sticky header
+    // position: -webkit-sticky
+    // position: sticky
+    // top: 0
+    // z-index: 2
 
     &.sortable, &.filterable
       cursor: pointer
