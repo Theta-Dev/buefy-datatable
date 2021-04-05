@@ -3,12 +3,12 @@
     <div id="popovers" />
     <tabs v-model="tab">
       <template v-slot:brand>
-        <a class="navbar-item">
+        <div class="navbar-item">
           <img
             src="./assets/logo.png"
             alt="buefy-datatable"
           >
-        </a>
+        </div>
       </template>
 
       <b-tab-item label="DataTable">
