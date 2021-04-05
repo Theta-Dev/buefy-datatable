@@ -372,6 +372,7 @@ export default {
     &.sortable, &.filterable
       cursor: pointer
 
+    &.sortable
       &:hover
         border-bottom-color: derived-variables.$black
         +mixins.prefers-scheme(dark)
