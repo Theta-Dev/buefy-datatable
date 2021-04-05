@@ -344,6 +344,12 @@ export default {
 @use "~bulma/sass/utilities/derived-variables"
 @use "~bulma-prefers-dark/sass/utilities/mixins"
 
+.datatable-root
+  .input
+    width: min(50vw, 300px)
+    border-radius: 0 0.25rem
+    border-style: none none solid solid
+
 .datatable-wrapper
   overflow: auto
 
