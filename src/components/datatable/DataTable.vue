@@ -355,7 +355,6 @@ export default {
 
 .datatable
   width: 100%
-  border-collapse: separate
 
   thead th
     border-bottom-width: 2px !important
@@ -365,12 +364,6 @@ export default {
     background-color: derived-variables.$white
     +mixins.prefers-scheme(dark)
       background-color: derived-variables.$black-bis
-
-    // Sticky header
-    // position: -webkit-sticky
-    // position: sticky
-    // top: 0
-    // z-index: 2
 
     &.sortable, &.filterable
       cursor: pointer
