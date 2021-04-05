@@ -4,7 +4,6 @@
       title="DataTable Demo"
       :fields="tableFields"
       :data="tableData"
-      fixed-height="220"
     />
   </div>
 </template>
@@ -40,11 +39,11 @@ export default {
     tableFields: [
       new TableFieldTiny('Nr.'),
       new TableField('Name'),
-      new TableField('Task'),
+      new TableField('Departments'),
       new TableFieldDummy('Dummy'),
       new TableFieldIcon('Icon', ICONS, true),
       new TableFieldDate('Date'),
-      new TableFieldList('List'),
+      new TableFieldList('Cars'),
     ],
 
     test: new TableField('HelloWorld'),
