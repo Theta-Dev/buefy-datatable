@@ -34,7 +34,7 @@ Vue.use(VTooltip, {
   defaultContainer: false,
   autoHide: false,
   popover: {
-    defaultContainer: false,
+    defaultContainer: '#popovers',
   },
 });
 

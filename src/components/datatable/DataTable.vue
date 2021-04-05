@@ -6,7 +6,7 @@
     >
       {{ title }}
     </h1>
-    <b-field>
+    <b-field class="mb-6">
       <b-input
         v-model="search"
         placeholder="Search..."
@@ -28,7 +28,7 @@
       <template #default="props">
         <dialog-filter
           :dactive="filter_dialog.active"
-          :fname="'Name'"
+          :fname="fields[filter_dialog.col].name"
           :items="filterLists[filter_dialog.col]"
           :filters="filters[filter_dialog.col]"
           @selection="$set(filters, filter_dialog.col, $event)"
@@ -45,32 +45,37 @@
             v-for="(field, i) in fields"
             :key="field.name"
             :class="getHeadClasses(i, field.headCls)"
+            @click="toggleSort(i)"
           >
             <v-popover
-              trigger="hover"
+              :trigger="isFilterActive(i) ? 'manual' : 'hover'"
+              :open="isFilterActive(i)"
               placement="top"
+              popover-class="po-filter"
               :auto-hide="false"
               :disabled="!isFilterAvailable(i) && !isSortAvailable(i)"
             >
-              {{ field.name }}
+              {{ field.name }} {{ getSortIcon(i) }}
               <template slot="popover">
+                <!--
                 <b-button
                   v-if="isSortAvailable(i)"
                   class="mx-1"
                   :type="isSortActive(i) ? 'is-primary' : ''"
                   :icon-right="isSortActive(i, false) ? icons.sortZA : icons.sortAZ"
                   @click="toggleSort(i)"
-                />
+                />-->
                 <b-button
                   v-if="isFilterAvailable(i)"
-                  class="mx-1"
+                  size="is-small"
                   :type="isFilterActive(i) ? 'is-primary' : ''"
                   :icon-right="icons.filter"
                   @click="showFilterDialog(i)"
                 />
                 <b-button
                   v-if="isFilterActive(i)"
-                  class="mx-1"
+                  class="ml-1"
+                  size="is-small"
                   type="is-danger"
                   :icon-right="icons.filter_off"
                   @click="clearFilter(i)"
@@ -362,6 +367,7 @@ export default {
     border-bottom-width: 2px !important
     padding: 0
     user-select: none
+    white-space: nowrap
 
     &.sortable, &.filterable
       cursor: pointer
@@ -391,19 +397,9 @@ export default {
 
   .tinycol
     text-align: center !important
-    &.td
+    &.td, .trigger
       padding: 0.5em 0.2em
 
-  .invisible-menu
-    background: none
-    border: none
-    box-shadow: none !important
-
-  .invisible-menu > *
-    box-shadow: none !important
-
-  .filter-menu
-    max-height: 50vh
-    overflow-y: auto
-    overflow-x: hidden
+.tooltip.popover.po-filter .popover-inner
+  padding: 0.3rem
 </style>

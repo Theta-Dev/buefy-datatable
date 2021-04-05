@@ -53,6 +53,10 @@
         type="is-primary"
         @click="submit()"
       />
+      <b-button
+        label="Close"
+        @click="$emit('close')"
+      />
     </footer>
   </div>
 </template>
@@ -110,11 +114,11 @@ export default {
       else this.selection.splice(sel_i, 1);
     },
     searchInput() {
-      const search = this.search.toLowerCase().trim();
+      const search = this.search.toString().toLowerCase().trim();
       if(!search) return;
 
       this.items.forEach((item) => {
-        if(item.toLowerCase().startsWith(search)) this.selection.push(item);
+        if(item.toString().toLowerCase().startsWith(search)) this.selection.push(item);
       });
 
       this.search = '';

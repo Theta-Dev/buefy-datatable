@@ -1,10 +1,13 @@
+@use "~bulma/sass/utilities/derived-variables"
+@use "~bulma-prefers-dark/sass/utilities/mixins"
+
 .tooltip
   display: block !important
-  z-index: 10000
+  z-index: 39
 
   .tooltip-inner
-    background: black
-    color: white
+    background: derived-variables.$grey-darker
+    color: derived-variables.$white
     border-radius: 16px
     padding: 5px 10px 4px
 
@@ -14,7 +17,7 @@
     border-style: solid
     position: absolute
     margin: 5px
-    border-color: black
+    border-color: derived-variables.$grey-darker
     z-index: 1
 
   &[x-placement^="top"]
@@ -25,6 +28,7 @@
       border-left-color: transparent !important
       border-right-color: transparent !important
       border-bottom-color: transparent !important
+      bottom: 0
       left: calc(50% - 5px)
       margin-top: 0
       margin-bottom: 0
@@ -69,17 +73,15 @@
       margin-right: 0
 
   &.popover
-    $color: #f9f9f9
-
     .popover-inner
-      background: $color
-      color: black
+      background: derived-variables.$grey-darker
+      color: derived-variables.$white
       padding: 12px
       border-radius: 5px
-      box-shadow: 0 5px 30px rgba(black, .1)
+      // box-shadow: 0 5px 30px rgba(black, .1)
 
     .popover-arrow
-      border-color: $color
+      border-color: derived-variables.$grey-darker
 
   &[aria-hidden='true']
     visibility: hidden

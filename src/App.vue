@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div id="popovers" />
     <section class="hero is-default is-bold">
       <div class="hero-head">
         <b-navbar>
