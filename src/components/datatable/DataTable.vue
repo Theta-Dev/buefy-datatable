@@ -421,10 +421,9 @@ export default {
       +mixins.prefers-scheme(dark)
         background-color: derived-variables.$black-ter
 
-  .tinycol
-    &.td, .trigger
-      text-align: center
-      padding: 0.5em 0.2em
+  td.tinycol, td.tinycol .trigger
+    text-align: center
+    padding: 0.5em 0.2em
 
 .tooltip.popover.po-filter .popover-inner
   padding: 0.3rem
