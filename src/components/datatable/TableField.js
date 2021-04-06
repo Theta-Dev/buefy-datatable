@@ -18,15 +18,15 @@ export default class TableField {
   }
 
   compare(a, b) {
-    // INFO: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-    // ECMA specification: http://www.ecma-international.org/ecma-262/6.0/#sec-sortcompare
-
     if(a === undefined && b === undefined) return 0;
     if(a === undefined) return 1;
     if(b === undefined) return -1;
 
-    if(Number.isFinite(a) && Number.isFinite(b)) {
-      return a - b;
+    const aNumber = parseInt(a, 10);
+    const bNumber = parseInt(b, 10);
+
+    if(!Number.isNaN(aNumber) && !Number.isNaN(bNumber)) {
+      return aNumber - bNumber;
     }
 
     const aString = a.toString();

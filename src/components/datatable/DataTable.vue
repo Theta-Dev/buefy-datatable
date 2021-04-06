@@ -105,8 +105,9 @@
         <dialog-filter
           :dactive="filter_dialog.active"
           :fname="fields[filter_dialog.col].name"
-          :items="filterLists[filter_dialog.col]"
+          :items="filterMenuData.lists[filter_dialog.col]"
           :filters="filters[filter_dialog.col]"
+          :filter-counts="filterMenuData.counts[filter_dialog.col]"
           @selection="$set(filters, filter_dialog.col, $event)"
           @close="props.close"
         />
@@ -273,24 +274,30 @@ export default {
     },
     // Accumulate filterables for all columns to be shown in the filter menus
     // [i_col] => filterable[]
-    filterLists() {
+    filterMenuData() {
       const filterLists = [];
+      const filterCounts = [];
 
       this.filterables.forEach((item) => {
         item.forEach((col, i_col) => {
           col.forEach((filterable) => {
-            if(!Array.isArray(filterLists[i_col])) filterLists[i_col] = [];
-            if(filterable !== '' && filterable !== null && !filterLists[i_col].includes(filterable)) {
-              filterLists[i_col].push(filterable);
+            if(!Array.isArray(filterCounts[i_col])) filterLists[i_col] = [];
+            if(!Array.isArray(filterCounts[i_col])) filterCounts[i_col] = [];
+
+            if(filterable !== '' && filterable !== null) {
+              if(!filterLists[i_col].includes(filterable)) filterLists[i_col].push(filterable);
+
+              if(filterCounts[i_col][filterable] > 0) filterCounts[i_col][filterable]++;
+              else filterCounts[i_col][filterable] = 1;
             }
           });
         });
       });
 
-      filterLists.forEach((list, i_col) => list.sort(
-        (a, b) => this.fields[i_col].compareFilterable(a, b),
-      ));
-      return filterLists;
+      return {
+        lists: filterLists,
+        counts: filterCounts,
+      };
     },
   },
 
@@ -340,7 +347,8 @@ export default {
     },
     // Can this column be filtered?
     isFilterAvailable(i_col) {
-      return Array.isArray(this.filterLists[i_col]) && this.filterLists[i_col].length > 0;
+      return Array.isArray(this.filterMenuData.lists[i_col])
+        && this.filterMenuData.lists[i_col].length > 0;
     },
     // Is filter of certain column active
     isFilterActive(i_col) {

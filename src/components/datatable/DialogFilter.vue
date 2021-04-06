@@ -33,6 +33,12 @@
         />
       </div>
       <table class="table is-bordered">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Count</th>
+          </tr>
+        </thead>
         <tbody>
           <tr
             v-for="(item) in items"
@@ -43,6 +49,12 @@
               @click="toggleItem(item)"
             >
               {{ item }}
+            </td>
+            <td
+              :class="selection.includes(item) ? 'is-primary' : ''"
+              @click="toggleItem(item)"
+            >
+              {{ filterCounts[item] }}
             </td>
           </tr>
         </tbody>
@@ -92,6 +104,10 @@ export default {
     filters: {
       type: Array,
       default: () => [],
+    },
+    filterCounts: {
+      type: [Array, Object],
+      default: () => {},
     },
   },
   data: () => ({
