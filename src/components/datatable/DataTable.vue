@@ -1,9 +1,20 @@
 <template>
   <div class="datatable-root card">
     <header class="card-header">
-      <p class="card-header-title">
+      <div class="card-header-title">
         {{ title }}
-      </p>
+
+        <div :class="['tags', 'ml-3', {'has-addons': search || filter}]">
+          <span class="tag is-primary">
+            {{ tdata_filtered.length }}/{{ tdata.length }}
+          </span>
+          <a
+            v-show="search || filter"
+            class="tag is-delete"
+            @click="clearFilterAndSearch()"
+          />
+        </div>
+      </div>
       <div class="control has-icons-left">
         <input
           v-model="search"
@@ -76,19 +87,6 @@
                 </template>
               </tr>
             </template>
-
-            <tr>
-              <td
-                class="foot"
-                :colspan="fields.length"
-              >
-                {{ tdata_filtered.length }}/{{ tdata.length }} Elements
-                <a
-                  @click="clearFilterAndSearch()"
-                >
-                  (Clear filter)</a>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -422,12 +420,6 @@ export default {
       background-color: derived-variables.$scheme-main-ter
       +mixins.prefers-scheme(dark)
         background-color: derived-variables.$black-ter
-
-    .foot
-      text-align: center
-      background-color: darken(derived-variables.$scheme-main-ter, 5%)
-      +mixins.prefers-scheme(dark)
-        background-color: lighten(derived-variables.$black-ter, 5%)
 
   .tinycol
     &.td, .trigger
