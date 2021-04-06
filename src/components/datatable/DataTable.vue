@@ -4,12 +4,12 @@
       <div class="card-header-title">
         {{ title }}
 
-        <div :class="['tags', 'ml-3', {'has-addons': search || filter}]">
+        <div :class="['tags', 'ml-3', {'has-addons': search || filters.length}]">
           <span class="tag is-primary">
             {{ tdata_filtered.length }}/{{ tdata.length }}
           </span>
           <a
-            v-show="search || filter"
+            v-show="search || filters.length"
             class="tag is-delete"
             @click="clearFilterAndSearch()"
           />
