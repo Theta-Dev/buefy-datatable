@@ -4,38 +4,19 @@
       <p class="card-header-title">
         {{ title }}
       </p>
-      <b-field>
-        <b-input
+      <div class="control has-icons-left">
+        <input
           v-model="search"
           placeholder="Search..."
+          class="input"
+        >
+        <svg-icon
+          class="is-left"
           :icon="icons.search"
-          :icon-right="search ? icons.clear : ''"
-          icon-right-clickable
-          @icon-right-click="search = ''"
         />
-      </b-field>
+      </div>
     </header>
     <div class="card-content">
-      <b-modal
-        v-model="filter_dialog.active"
-        has-modal-card
-        trap-focus
-        aria-role="dialog"
-        aria-label="Filter"
-        aria-modal
-      >
-        <template #default="props">
-          <dialog-filter
-            :dactive="filter_dialog.active"
-            :fname="fields[filter_dialog.col].name"
-            :items="filterLists[filter_dialog.col]"
-            :filters="filters[filter_dialog.col]"
-            @selection="$set(filters, filter_dialog.col, $event)"
-            @close="props.close"
-          />
-        </template>
-      </b-modal>
-
       <div class="datatable-wrapper">
         <table class="datatable table is-bordered">
           <thead>
@@ -53,25 +34,23 @@
                   placement="top"
                   popover-class="po-filter"
                   :auto-hide="false"
-                  :disabled="!isFilterAvailable(i) && !isSortAvailable(i)"
+                  :disabled="!isFilterAvailable(i)"
                 >
                   {{ field.name }} {{ getSortIcon(i) }}
                   <template slot="popover">
-                    <b-button
-                      v-if="isFilterAvailable(i)"
-                      size="is-small"
-                      :type="isFilterActive(i) ? 'is-primary' : ''"
-                      :icon-right="icons.filter"
+                    <button
+                      :class="['button', 'is-small', {'is-primary': isFilterActive(i)}]"
                       @click="showFilterDialog(i)"
-                    />
-                    <b-button
+                    >
+                      <svg-icon :icon="icons.filter" />
+                    </button>
+                    <button
                       v-if="isFilterActive(i)"
-                      class="ml-1"
-                      size="is-small"
-                      type="is-danger"
-                      :icon-right="icons.filter_off"
+                      class="button ml-1 is-small is-danger"
                       @click="clearFilter(i)"
-                    />
+                    >
+                      <svg-icon :icon="icons.filter_off" />
+                    </button>
                   </template>
                 </v-popover>
               </th>
@@ -97,10 +76,42 @@
                 </template>
               </tr>
             </template>
+
+            <tr>
+              <td
+                class="foot"
+                :colspan="fields.length"
+              >
+                {{ tdata_filtered.length }}/{{ tdata.length }} Elements
+                <a
+                  @click="clearFilterAndSearch()"
+                >
+                  (Clear filter)</a>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
+
+    <modal
+      v-model="filter_dialog.active"
+      has-modal-card
+      aria-role="dialog"
+      aria-label="Filter"
+      aria-modal
+    >
+      <template #default="props">
+        <dialog-filter
+          :dactive="filter_dialog.active"
+          :fname="fields[filter_dialog.col].name"
+          :items="filterLists[filter_dialog.col]"
+          :filters="filters[filter_dialog.col]"
+          @selection="$set(filters, filter_dialog.col, $event)"
+          @close="props.close"
+        />
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -111,11 +122,18 @@ import {
   mdiFilter, mdiFilterOff, mdiMagnify,
   mdiSortAlphabeticalAscending, mdiSortAlphabeticalDescending,
 } from '@mdi/js';
+
+import Modal from '../util/Modal.vue';
 import DialogFilter from './DialogFilter.vue';
+import SvgIcon from '../util/SvgIcon.vue';
 
 export default {
   name: 'DataTable',
-  components: { DialogFilter },
+  components: {
+    SvgIcon,
+    Modal,
+    DialogFilter,
+  },
 
   props: {
     fields: {
@@ -336,6 +354,10 @@ export default {
       this.filter_dialog.col = i_col;
       this.filter_dialog.active = true;
     },
+    clearFilterAndSearch() {
+      this.filters = [];
+      this.search = '';
+    },
   },
 };
 </script>
@@ -346,12 +368,13 @@ export default {
 
 .datatable-root
   .card-header .input
-    width: min(50vw, 300px)
+    width: 50vw
     border-radius: 0 0.25rem
     border-style: none none solid solid
 
 .datatable-wrapper
-  overflow: auto
+  overflow-x: auto
+  overflow-y: hidden
 
 .datatable
   width: 100%
@@ -388,13 +411,19 @@ export default {
 
     &.even
       // Tinted even rows
-      background-color: derived-variables.$scheme-main-bis
+      background-color: derived-variables.$scheme-main-ter
       +mixins.prefers-scheme(dark)
         background-color: derived-variables.$black-ter
 
+    .foot
+      text-align: center
+      background-color: darken(derived-variables.$scheme-main-ter, 5%)
+      +mixins.prefers-scheme(dark)
+        background-color: lighten(derived-variables.$black-ter, 5%)
+
   .tinycol
-    text-align: center !important
     &.td, .trigger
+      text-align: center
       padding: 0.5em 0.2em
 
 .tooltip.popover.po-filter .popover-inner

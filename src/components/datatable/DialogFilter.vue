@@ -1,36 +1,37 @@
 <template>
-  <div
-    class="modal-card"
-    style="width: auto"
-  >
+  <div class="modal-card">
     <header class="modal-card-head">
       <p class="modal-card-title">
         Filter: {{ fname }}
       </p>
 
-      <b-button
-        class="mx-1"
-        type="is-primary"
-        :icon-right="icons.checkAll"
+      <button
+        class="button mx-1 is-primary"
         @click="selectAll(true)"
-      />
-      <b-button
-        class="mx-1"
-        type="is-danger"
-        :icon-right="icons.checkNone"
+      >
+        <svg-icon :icon="icons.checkAll" />
+      </button>
+      <button
+        class="button mx-1 is-danger"
         @click="selectAll(false)"
-      />
+      >
+        <svg-icon :icon="icons.checkNone" />
+      </button>
     </header>
     <section class="modal-card-body">
-      <b-field>
-        <b-input
+      <div class="control has-icons-left">
+        <input
           ref="search"
           v-model="search"
           placeholder="Enter filter..."
+          class="input mb-3"
+          @keyup.enter="searchInput()"
+        >
+        <svg-icon
+          class="is-left"
           :icon="icons.search"
-          @keyup.native.enter="searchInput()"
         />
-      </b-field>
+      </div>
       <table class="table is-bordered">
         <tbody>
           <tr
@@ -48,24 +49,33 @@
       </table>
     </section>
     <footer class="modal-card-foot">
-      <b-button
-        label="OK"
-        type="is-primary"
+      <button
+        class="button is-primary"
         @click="submit()"
-      />
-      <b-button
-        label="Close"
+      >
+        OK
+      </button>
+      <button
+        class="button"
         @click="$emit('close')"
-      />
+      >
+        Close
+      </button>
     </footer>
   </div>
 </template>
 
 <script>
 import { mdiCheckboxMultipleBlankOutline, mdiCheckboxMultipleMarked, mdiMagnify } from '@mdi/js';
+import SvgIcon from '../util/SvgIcon.vue';
 
 export default {
   name: 'DialogFilter',
+
+  components: {
+    SvgIcon,
+  },
+
   props: {
     dactive: {
       type: Boolean,
@@ -139,4 +149,7 @@ export default {
 <style scoped lang="sass">
 table
   width: 100%
+
+  td
+    cursor: pointer
 </style>

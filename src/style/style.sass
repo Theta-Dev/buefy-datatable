@@ -1,4 +1,4 @@
-@use "~bulma/sass/utilities/derived-variables"
+@use "~bulma/sass/utilities/derived-variables" as colors
 @use "~bulma-prefers-dark/sass/utilities/mixins"
 
 // Icon size adjustments
@@ -11,20 +11,20 @@
   .modal-background
     background-color: rgba(10, 10, 10, 0.86)
   .modal-card
-    color: derived-variables.$white
+    color: colors.$white
   .modal-card-body
-    background-color: derived-variables.$black-ter
+    background-color: colors.$black-ter
 
   .table:not(.is-bordered)
     td, th
-      // border-bottom: 1px solid derived-variables.$grey-darker
+      // border-bottom: 1px solid colors.$grey-darker
       border-left: none
       border-right: none
 
   a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover,
   a.navbar-item.is-active, .navbar-link:focus, .navbar-link:focus-within,
   .navbar-link:hover, .navbar-link.is-active
-    background-color: derived-variables.$black-ter
+    background-color: colors.$black-ter
 
 // Fix table overflow
 .table-wrapper
@@ -35,7 +35,46 @@
   border: none
 
 a.navbar-item
-  border-top: 4px solid transparent
-  border-bottom: 4px solid transparent
+  border-top: 3px solid transparent
+  border-bottom: 3px solid transparent
+  user-select: none
   &.is-active
-    border-bottom-color: derived-variables.$primary
+    border-bottom-color: colors.$primary !important
+  &:hover:not(.logo)
+    border-bottom-color: colors.$info
+
+// Tab bar
+.tab-bar
+  .navbar, .navbar-menu, .navbar-start, .navbar-end
+    align-items: stretch
+    display: flex
+    padding: 0
+
+  .navbar-menu
+    flex-grow: 1
+    flex-shrink: 0
+
+  .navbar-start
+    justify-content: flex-start
+    margin-right: auto
+
+  .navbar-end
+    justify-content: flex-end
+    margin-left: auto
+
+  .navbar .container
+    display: flex
+
+  .navbar-item
+    display: flex
+    align-items: center
+
+  a.navbar-item
+    border-top: 3px solid transparent
+    border-bottom: 3px solid transparent
+    user-select: none
+
+    &.is-active
+      border-bottom-color: colors.$primary !important
+    &:hover:not(.logo)
+      border-bottom-color: colors.$info

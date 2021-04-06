@@ -1,46 +1,32 @@
 <template>
   <div id="app">
     <div id="popovers" />
-    <tabs v-model="tab">
-      <template v-slot:brand>
-        <div class="navbar-item">
-          <img
-            src="./assets/logo.png"
-            alt="buefy-datatable"
-          >
-        </div>
-      </template>
-
-      <b-tab-item label="DataTable">
-        <hello-world />
-      </b-tab-item>
-
-      <b-tab-item label="About">
-        <div class="container">
-          <div class="card">
-            <div class="card-content">
-              Lorem ipsum<br>
-              dolor sit amet.
-            </div>
-          </div>
-        </div>
-      </b-tab-item>
-    </tabs>
+    <tab-layout :tabs="tabs">
+      <a class="navbar-item logo">
+        <img
+          src="./assets/logo.png"
+          alt="buefy-datatable"
+        >
+      </a>
+    </tab-layout>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
-import Tabs from './components/Tabs.vue';
+import TabLayout from './components/util/TabLayout.vue';
+import HelloWorld from './views/HelloWorld.vue';
+import LoremIpsum from './views/LoremIpsum.vue';
 
 export default {
   name: 'App',
-  components: {
-    Tabs,
-    HelloWorld,
-  },
+  components: { TabLayout },
+
   data: () => ({
-    tab: 0,
+    tabs: {
+      HelloWorld,
+      LoremIpsum,
+    },
+    test: true,
   }),
 };
 </script>

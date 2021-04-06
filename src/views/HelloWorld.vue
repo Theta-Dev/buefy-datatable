@@ -13,22 +13,22 @@ import {
   mdiAccountTie, mdiDialpad, mdiDomain, mdiLaptop, mdiMessage,
 } from '@mdi/js';
 
-import mockData from './mock.json';
-import DataTable from './datatable/DataTable.vue';
+import mockData from '../mock.json';
+import DataTable from '../components/datatable/DataTable.vue';
 
-import TableField from './datatable/TableField';
-import TableFieldTiny from './datatable/TableFieldTiny';
-import TableFieldDummy from './datatable/TableFieldDummy';
-import TableFieldIcon from './datatable/TableFieldIcon';
-import TableFieldDate from './datatable/TableFieldDate';
-import TableFieldList from './datatable/TableFieldList';
+import TableField from '../components/datatable/TableField';
+import TableFieldTiny from '../components/datatable/TableFieldTiny';
+import TableFieldDummy from '../components/datatable/TableFieldDummy';
+import TableFieldIcon from '../components/datatable/TableFieldIcon';
+import TableFieldDate from '../components/datatable/TableFieldDate';
+import TableFieldList from '../components/datatable/TableFieldList';
 
 const ICONS = {
-  0: ['Domain', mdiDomain, 'is-primary'],
-  1: ['Message', mdiMessage, 'is-success'],
-  2: ['Dial', mdiDialpad, 'is-danger'],
-  3: ['Computer', mdiLaptop, 'is-warning'],
-  4: ['Account', mdiAccountTie, 'is-info'],
+  0: ['Domain', mdiDomain, 'has-text-primary'],
+  1: ['Message', mdiMessage, 'has-text-success'],
+  2: ['Dial', mdiDialpad, 'has-text-danger'],
+  3: ['Computer', mdiLaptop, 'has-text-warning'],
+  4: ['Account', mdiAccountTie, 'has-text-info'],
 };
 
 export default {

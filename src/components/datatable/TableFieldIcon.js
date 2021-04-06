@@ -1,4 +1,4 @@
-import { BIcon } from 'buefy/src/components/icon';
+import SvgIcon from '../util/SvgIcon.vue';
 
 import TableField from './TableField';
 
@@ -16,10 +16,9 @@ export default class TableFieldIcon extends TableField {
       render() {
         return (
           <td class="tinycol">
-            <BIcon
-              component="svg-icon"
+            <SvgIcon
               icon={icons[val][1]}
-              type={icons[val][2]}
+              class={icons[val][2]}
               v-tooltip={icons[val][0]}
             />
           </td>
